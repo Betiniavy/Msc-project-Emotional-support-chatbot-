@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AVBOT</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>AVBOT</h1>
+        <div class="daily-tip" id="dailyTip">Loading daily tip...</div>
+        <div class="chatbox" id="chatbox">
+            <div class="bot-message">Hi, I'm Avy. How are you feeling today?</div>
+            <div class="emoji-buttons">
+                <button onclick="handleFeeling('anxious')">😟 Anxious</button>
+                <button onclick="handleFeeling('sad')">😢 Sad</button>
+                <button onclick="handleFeeling('angry')">😠 Angry</button>
+                <button onclick="handleFeeling('numb')">😐 Numb</button>
+                <button onclick="handleFeeling('overwhelmed')">😩 Overwhelmed</button>
+            </div>
+        </div>
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Type your message..." />
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

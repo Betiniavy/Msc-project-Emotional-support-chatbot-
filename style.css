@@ -1,0 +1,76 @@
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f7f6f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 30px 20px;
+    background: white;
+    border-radius: 10px;
+    margin-top: 50px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.daily-tip {
+    background: #fff6e6;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid #f0dfc8;
+    margin-bottom: 15px;
+    border-radius: 6px;
+}
+
+.chatbox {
+    margin-bottom: 20px;
+}
+
+.bot-message, .user-message {
+    background: #e6e6fa;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: fit-content;
+    max-width: 90%;
+}
+
+.user-message {
+    background: #d6eaf8;
+    margin-left: auto;
+}
+
+.emoji-buttons button, .choice-buttons button {
+    margin: 4px 4px 8px 0;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.input-area {
+    display: flex;
+    gap: 10px;
+}
+
+.input-area input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.input-area button {
+    padding: 10px 14px;
+    cursor: pointer;
+}
