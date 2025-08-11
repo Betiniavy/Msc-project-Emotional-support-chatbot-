@@ -1,76 +1,195 @@
-
+/* style.css */
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #f7f6f4;
-    margin: 0;
-    padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f7f6f4;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-    max-width: 600px;
-    margin: auto;
-    padding: 30px 20px;
-    background: white;
-    border-radius: 10px;
-    margin-top: 50px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: auto;
+  padding: 20px 30px;
+  background: white;
+  border-radius: 10px;
+  margin-top: 40px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 h1 {
-    text-align: center;
-    color: #333;
+  text-align: center;
+  color: #333;
 }
 
 .daily-tip {
-    background: #fff6e6;
-    padding: 10px;
-    text-align: center;
-    font-size: 14px;
-    border: 1px solid #f0dfc8;
-    margin-bottom: 15px;
-    border-radius: 6px;
+  background: #fff6e6;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid #f0dfc8;
+  margin-bottom: 20px;
+  border-radius: 6px;
 }
 
 .chatbox {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
-.bot-message, .user-message {
-    background: #e6e6fa;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    width: fit-content;
-    max-width: 90%;
+.bot-message {
+  display: inline-block;
+  max-width: 85%;
+  background: #e6e6fa;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .user-message {
-    background: #d6eaf8;
-    margin-left: auto;
+  display: block; 
+  width: fit-content; 
+  max-width: 85%;
+  margin-left: auto; 
+  background: #f5f5e9;
+  border-radius: 8px;
+  padding: 10px 14px;
+  word-wrap: break-word;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.emoji-buttons button, .choice-buttons button {
-    margin: 4px 4px 8px 0;
-    padding: 8px 12px;
-    font-size: 14px;
-    border: none;
-    background: #f1f1f1;
-    border-radius: 6px;
-    cursor: pointer;
+/* ---- Added spacing rules ---- */
+
+/* Base spacing between all messages */
+.bot-message,
+.user-message {
+  margin-bottom: 10px;
 }
 
+/* Extra breathing space after user message before bot reply */
+.user-message + .bot-message {
+  margin-top: 14px;
+}
+
+/* Buttons */
+.emoji-buttons button,
+.choice-buttons button {
+  margin: 4px 4px 8px 0;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  background: #f1f1f1;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Input area — shorter input */
 .input-area {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .input-area input {
-    flex-grow: 1;
-    padding: 10px;
-    font-size: 14px;
+  flex: 0 1 65%;
+  max-width: 380px;
+  min-width: 220px;
+  padding: 10px;
+  font-size: 14px;
 }
 
 .input-area button {
-    padding: 10px 14px;
-    cursor: pointer;
+  padding: 10px 14px;
+  cursor: pointer;
+  flex: none;
+}
+
+/* Breather styling */
+.breather {
+  background: #e6e6fa;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 8px;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+.breather-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.breather-title { font-weight: 600; }
+.breather-sub { font-size: 13px; opacity: .85; }
+.breather-input { width: 56px; padding: 4px 6px; border: 1px solid #ddd; border-radius: 6px; }
+.b-controls button { margin-left: 6px; padding: 6px 10px; border: 1px solid #ddd; background: #f9f9f9; border-radius: 6px; cursor: pointer; }
+.b-visual { display: flex; justify-content: center; align-items: center; margin: 8px 0; }
+.b-circle { width: 110px; height: 110px; border-radius: 999px; border: 2px solid rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; position: relative; transition: transform .25s ease; background: white; }
+.b-count { font-size: 26px; font-weight: 700; }
+.b-phase { position: absolute; bottom: -20px; font-size: 12px; opacity: .7; }
+.b-progress { height: 6px; border-radius: 6px; background: #f1f1f1; overflow: hidden; }
+.b-bar { height: 100%; width: 0%; background: #d6eaf8; }
+
+/* =========================================================
+   THEME ADD-ONS — Palette A (Lavender & Cream, refined)
+   Appended so it overrides where needed without changing your HTML/JS
+   ========================================================= */
+
+/* Theme variables */
+:root{
+  --bg:#f7f6f4;         /* page */
+  --panel:#ffffff;       /* container */
+  --ink:#2b2b2b;         /* text */
+  --bot:#e8e8ff;         /* bot bubble (slightly richer lavender) */
+  --user:#f5f5e9;        /* user bubble (as-is) */
+  --tip:#fff3c4;         /* tip bar slightly richer for contrast */
+  --border:#e6e6ea;
+  --accent:#6c63ff;      /* focus/primary */
+}
+
+/* Alias selectors so class or id both work */
+.chatbox, #chatbox { margin-bottom: 20px; }
+.daily-tip, #dailyTip {
+  background: var(--tip);
+  border: 1px solid color-mix(in srgb, var(--tip) 70%, #0000);
+  color: #3b3b3b; /* slightly darker for contrast */
+}
+
+/* Apply theme colors (keeps your layout intact) */
+body{ background: var(--bg); }
+.container{ background: var(--panel); }
+h1, .bot-message, .user-message { color: var(--ink); }
+
+.bot-message{ background: var(--bot); border-color: var(--border); }
+.user-message{ background: var(--user); border-color: var(--border); }
+
+/* Readability */
+.bot-message, .user-message { line-height: 1.45; }
+.user-message { overflow-wrap: anywhere; }
+
+/* Buttons: hover + accessible focus */
+.emoji-buttons button,
+.choice-buttons button,
+.b-controls button {
+  transition: transform .05s ease, background-color .15s ease, box-shadow .15s ease;
+}
+
+.emoji-buttons button:hover,
+.choice-buttons button:hover,
+.b-controls button:hover {
+  background: #ececec;
+}
+
+.emoji-buttons button:focus-visible,
+.choice-buttons button:focus-visible,
+.b-controls button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Mobile polish */
+@media (max-width: 640px) {
+  .container { margin-top: 20px; border-radius: 8px; padding: 16px; }
+  .input-area input { min-width: 0; max-width: 100%; flex: 1; }
 }
