@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avbot</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app">
+
+    <div class="entry-screen" id="entryScreen">
+      <h1>Practice Self-Kindness</h1>
+      <p>
+     Avbot is a guided reflection space designed to help you respond to yourself with compassion.
+      </p>
+      <button id="startBtn">Start Reflection</button>
+    </div>
+
+    <div class="chat-container hidden" id="chatContainer">
+
+      <div class="safety-banner">
+       Avbot is not a crisis service.
+     If you are in immediate danger, call 999. For urgent medical advice, contact NHS 111.
+      </div>
+
+      <div class="chatbox" id="chatbox"></div>
+
+      <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type your message..." />
+        <button id="sendBtn">Send</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

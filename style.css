@@ -1,0 +1,360 @@
+/* ======================================
+   BASE
+====================================== */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #3b2d43;
+  color: #1f1f1f;
+
+  display: flex;
+  justify-content: center;
+}
+
+/* Remove mobile auto blue link styling */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Prevent iOS auto-detected link blue */
+a, 
+a:visited, 
+a:active {
+  color: inherit;
+}
+
+/* ======================================
+   APP WRAPPER
+====================================== */
+
+.app {
+  width: 100%;
+  max-width: 640px;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* ======================================
+   ENTRY SCREEN
+====================================== */
+
+.entry-screen {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-top: 100px;
+}
+
+.entry-screen h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #ffffff;
+}
+
+.entry-screen p {
+  max-width: 360px;
+  margin: 0 auto 28px auto;
+  padding: 0 10px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.entry-screen button {
+  padding: 16px 30px;
+  border-radius: 30px;
+  background: #e3e5ff;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.25);
+  transition: all 0.25s ease;
+}
+
+.entry-screen button:hover {
+  transform: translateY(-2px);
+  background: #d5d8ff;
+}
+
+/* ======================================
+   CHAT CONTAINER
+====================================== */
+
+.chat-container {
+  background: #ffffff;
+  border-radius: 30px;
+  padding: 34px;
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.35);
+
+  display: flex;
+  flex-direction: column;
+
+  height: 85vh; /* responsive fix */
+}
+
+/* ======================================
+   SAFETY BANNER
+====================================== */
+
+.safety-banner {
+  font-size: 12px;
+  margin-bottom: 20px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* ======================================
+   CHAT AREA
+====================================== */
+
+.chatbox {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 24px;
+  padding-right: 6px;
+}
+
+/* ======================================
+   MESSAGE BUBBLES
+====================================== */
+
+.bot-message,
+.user-message {
+  max-width: 60%;
+  padding: 18px 22px;
+  margin-bottom: 28px;
+  line-height: 1.65;
+  font-size: 15px;
+  animation: fadeIn 0.35s ease;
+}
+
+.bot-message {
+  align-self: flex-start;
+  background: #f4f5ff;
+  border-radius: 26px 26px 26px 10px;
+  color: #2a2a2a;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+}
+
+.user-message {
+  align-self: flex-end;
+  background: #d9e2f2;
+  border-radius: 26px 26px 10px 26px;
+  color: #1a1a1a;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+}
+
+/* Smooth fade animation */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ======================================
+   CHOICE BUTTONS
+====================================== */
+
+.chatbox button {
+  margin: 6px 12px 0 0;
+  padding: 12px 18px;
+  border-radius: 20px;
+  border: none;
+  background: #eef0ff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chatbox button:hover {
+  background: #e0e3ff;
+  transform: translateY(-2px);
+}
+
+/* ======================================
+   INPUT AREA
+====================================== */
+
+.input-area {
+  display: flex;
+  gap: 14px;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 18px;
+  border-radius: 24px;
+  border: 1px solid #e5e5ef;
+  font-size: 15px;
+  background: #fafafa;
+}
+
+.input-area input:focus {
+  outline: none;
+  border-color: #bdbdf0;
+}
+
+.input-area button {
+  padding: 18px 24px;
+  border-radius: 24px;
+  background: #e3e5ff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.input-area button:hover {
+  background: #d3d6ff;
+}
+
+/* ======================================
+   MODAL BASE (Breathing + Sit + Flip)
+====================================== */
+
+.breathing-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(25, 25, 40, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.breathing-card,
+.flip-container {
+  background: #ffffff;
+  padding: 50px 40px;
+  border-radius: 32px;
+  text-align: center;
+  width: 380px;
+  max-width: 90%;
+  box-shadow: 0 50px 120px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal Buttons */
+.breathing-card button,
+.flip-container button {
+  padding: 14px 22px;
+  border-radius: 22px;
+  border: none;
+  background: #e3e5ff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.breathing-card button:hover,
+.flip-container button:hover {
+  background: #d3d6ff;
+  transform: translateY(-2px);
+}
+
+/* ======================================
+   BREATH CIRCLE
+====================================== */
+
+.breath-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  margin: 35px auto;
+  border: 3px solid #dcdcff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  font-weight: 600;
+  transition: transform 1s ease;
+}
+
+.breath-phase {
+  font-size: 14px;
+  color: #555;
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+/* ======================================
+   FLIP CARD
+====================================== */
+
+.flip-card {
+  perspective: 1000px;
+  width: 100%;
+  height: 180px;
+  margin-bottom: 26px;
+  cursor: pointer;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s ease;
+  transform-style: preserve-3d;
+}
+
+.flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-front,
+.flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  backface-visibility: hidden;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.1);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.flip-front {
+  background: #f5f6ff;
+}
+
+.flip-back {
+  background: #e3e5ff;
+  transform: rotateY(180deg);
+}
+
+/* ======================================
+   MOBILE OPTIMISATION
+====================================== */
+
+@media (max-width: 768px) {
+
+  .entry-screen {
+    padding-top: 80px;
+  }
+
+  .app {
+    padding: 30px 15px;
+  }
+
+  .bot-message,
+  .user-message {
+    max-width: 80%;
+  }
+
+}
