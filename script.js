@@ -10,7 +10,6 @@ const entryScreen = document.getElementById("entryScreen");
 const chatContainer = document.getElementById("chatContainer");
 
 let currentNode = null;
-let awaitingInput = false;
 
 /* =====================================
    SESSION TRACKING
@@ -32,11 +31,10 @@ const HIGH_RISK = /\b(suicid(?:e|al)?|kill myself|end my life)\b/i;
 ===================================== */
 
 const FLOW = {
-
   welcome: {
     type: "message",
     intervention: "containment_boundary",
-    text: "Hi, I’m Avbot  an emotional support chatbot designed to help you respond to yourself with a little more kindness. I’m not a therapist, but I can guide you through gentle reflection.",
+    text: "Hi, I’m Avbot. You can type how you're feeling anytime, or choose an option below.",
     next: "emotion_check"
   },
 
@@ -53,8 +51,6 @@ const FLOW = {
       { label: "Numb / disconnected", next: "validate_numb" }
     ]
   },
-
-  /* VALIDATION */
 
   validate_anxious: {
     type: "message",
@@ -98,8 +94,6 @@ const FLOW = {
     next: "reflect_common"
   },
 
-  /* REFLECTION */
-
   reflect_common: {
     type: "input",
     intervention: "externalisation",
@@ -120,8 +114,6 @@ const FLOW = {
     text: "Picture yourself one week from now, feeling a little steadier. What might that version of you want to remind you of today?",
     next: "closing"
   },
-
-  /* CLOSING */
 
   closing: {
     type: "choice",
@@ -145,7 +137,6 @@ const FLOW = {
     type: "message",
     text: "Thank you for checking in today. You took a moment for yourself that matters."
   }
-
 };
 
 /* =====================================
@@ -157,26 +148,30 @@ function addMessage(text, isUser = false) {
   msg.className = isUser ? "user-message" : "bot-message";
   msg.textContent = text;
   chatbox.appendChild(msg);
-  chatbox.scrollTop = chatbox.scrollHeight;
+
+  scrollToBottom();
 }
 
 function addButtons(options, callback) {
   const container = document.createElement("div");
+  container.className = "choice-container";
 
   options.forEach(option => {
     const btn = document.createElement("button");
+    btn.type = "button";
     btn.textContent = option;
 
     btn.onclick = () => {
       addMessage(option, true);
       container.remove();
-      callback(option.toLowerCase());
+      callback(option);
     };
 
     container.appendChild(btn);
   });
 
   chatbox.appendChild(container);
+  scrollToBottom();
 }
 
 function renderNode(nodeId) {
@@ -189,10 +184,13 @@ function renderNode(nodeId) {
     sessionData.interventionsUsed.add(node.intervention);
   }
 
+  // Always keep input active
+  userInput.focus();
+
   if (node.type === "message") {
     addMessage(node.text);
     if (node.next) {
-      setTimeout(() => renderNode(node.next), 600);
+      setTimeout(() => renderNode(node.next), 500);
     }
   }
 
@@ -202,9 +200,9 @@ function renderNode(nodeId) {
     addButtons(
       node.options.map(o => o.label),
       (choice) => {
-        const selected = node.options.find(
-          o => o.label.toLowerCase() === choice
-        );
+        const selected = node.options.find(o => o.label === choice);
+
+        if (!selected) return;
 
         if (selected.action === "breathing") startBreathingFlow();
         else if (selected.action === "sit") startSitWithIt();
@@ -216,13 +214,13 @@ function renderNode(nodeId) {
 
   if (node.type === "input") {
     addMessage(node.text);
-    awaitingInput = true;
   }
 
   if (node.type === "summary") {
     addMessage(node.text);
 
     const list = document.createElement("ul");
+
     sessionData.interventionsUsed.forEach(item => {
       const li = document.createElement("li");
       li.textContent = item.replace(/_/g, " ");
@@ -236,29 +234,25 @@ function renderNode(nodeId) {
 }
 
 /* =====================================
-   INPUT HANDLING
+   INPUT HANDLING (FIXED)
 ===================================== */
 
 function handleUserInput() {
-  if (!awaitingInput) return;
-
   const text = userInput.value.trim();
   if (!text) return;
 
+  addMessage(text, true);
+  userInput.value = "";
+
   if (HIGH_RISK.test(text)) {
-    addMessage(text, true);
     addMessage("I’m really sorry you're feeling this way.");
     addMessage("If you need urgent medical help or advice, please call NHS 111.");
     addMessage("If you are in immediate danger, call 999.");
-    awaitingInput = false;
     return;
   }
 
-  addMessage(text, true);
-  userInput.value = "";
-  awaitingInput = false;
-
-  const nextNode = FLOW[currentNode].next;
+  // Always continue flow intelligently
+  const nextNode = FLOW[currentNode]?.next || "acknowledge_input";
   if (nextNode) renderNode(nextNode);
 }
 
@@ -272,11 +266,20 @@ userInput.addEventListener("keydown", (e) => {
 });
 
 /* =====================================
+   UTIL
+===================================== */
+
+function scrollToBottom() {
+  setTimeout(() => {
+    chatbox.scrollTop = chatbox.scrollHeight;
+  }, 50);
+}
+
+/* =====================================
    BREATHING MODAL
 ===================================== */
 
 function startBreathingFlow() {
-
   const modal = document.createElement("div");
   modal.className = "breathing-modal";
 
@@ -298,13 +301,13 @@ function startBreathingFlow() {
   let step = 0;
   const phases = ["Inhale", "Hold", "Exhale"];
   const durations = [4, 4, 4];
+  let interval;
 
   function runPhase() {
     let count = durations[step];
     phase.textContent = phases[step];
-    circle.style.transform = step === 0 ? "scale(1.2)" : "scale(1.0)";
 
-    const interval = setInterval(() => {
+    interval = setInterval(() => {
       circle.textContent = count;
       count--;
 
@@ -322,6 +325,7 @@ function startBreathingFlow() {
   runPhase();
 
   closeBtn.onclick = () => {
+    clearInterval(interval);
     modal.remove();
     renderNode("closing");
   };
@@ -332,7 +336,6 @@ function startBreathingFlow() {
 ===================================== */
 
 function startSitWithIt() {
-
   const modal = document.createElement("div");
   modal.className = "breathing-modal";
 
@@ -373,11 +376,10 @@ function startSitWithIt() {
 }
 
 /* =====================================
-   FLIP REMINDER
+   REMINDER CARD
 ===================================== */
 
 function startReminderCard() {
-
   const reminders = [
     "You don’t have to solve everything today.",
     "Feelings pass, even when they feel permanent.",
@@ -396,7 +398,7 @@ function startReminderCard() {
       <div class="flip-card">
         <div class="flip-inner" id="flipInner">
           <div class="flip-front">
-            Tap to reveal a small reminder.
+            Tap to gently reveal a reminder ↓
           </div>
           <div class="flip-back">
             ${randomReminder}
@@ -417,7 +419,7 @@ function startReminderCard() {
   const closeBtn = modal.querySelector("#closeReminder");
   const flipBackBtn = modal.querySelector("#flipBackBtn");
 
-  inner.parentElement.onclick = () => {
+  inner.onclick = () => {
     inner.classList.toggle("flipped");
   };
 
@@ -438,5 +440,9 @@ function startReminderCard() {
 startBtn.onclick = () => {
   entryScreen.classList.add("hidden");
   chatContainer.classList.remove("hidden");
+
+  userInput.placeholder = "You can share anything here...";
+  userInput.focus();
+
   renderNode("welcome");
 };

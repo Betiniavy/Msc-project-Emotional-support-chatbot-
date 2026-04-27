@@ -1,43 +1,41 @@
 /* ======================================
-   BASE
+   GLOBAL RESET
 ====================================== */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html, body {
+  width: 100%;
   height: 100%;
-}
-
-body {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: #3b2d43;
-  color: #1f1f1f;
-
-  display: flex;
-  justify-content: center;
-}
-
-/* Remove mobile auto blue link styling */
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* Prevent iOS auto-detected link blue */
-a, 
-a:visited, 
-a:active {
-  color: inherit;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 /* ======================================
-   APP WRAPPER
+   BODY
+====================================== */
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #3b2d43;
+  color: #1f1f1f;
+}
+
+/* ======================================
+   APP SHELL
 ====================================== */
 
 .app {
   width: 100%;
-  max-width: 640px;
+  height: 100%;
   padding: 40px 20px;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ======================================
@@ -46,15 +44,14 @@ a:active {
 
 .entry-screen {
   text-align: center;
-  margin-bottom: 40px;
   padding-top: 100px;
+  margin-bottom: 40px;
 }
 
 .entry-screen h1 {
-  margin: 0;
+  margin: 0 0 16px 0;
   font-size: 32px;
   font-weight: 600;
-  margin-bottom: 16px;
   color: #ffffff;
 }
 
@@ -71,7 +68,6 @@ a:active {
   border-radius: 30px;
   background: #e3e5ff;
   font-size: 15px;
-  font-weight: 500;
   border: none;
   cursor: pointer;
   box-shadow: 0 20px 40px rgba(255, 255, 255, 0.25);
@@ -90,13 +86,17 @@ a:active {
 .chat-container {
   background: #ffffff;
   border-radius: 30px;
-  padding: 34px;
+  padding: 28px;
   box-shadow: 0 50px 100px rgba(0, 0, 0, 0.35);
-
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
 
-  height: 85vh; /* responsive fix */
+.hidden {
+  display: none !important;
 }
 
 /* ======================================
@@ -118,7 +118,9 @@ a:active {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 24px;
-  padding-right: 6px;
+
+  display: flex;
+  flex-direction: column;
 }
 
 /* ======================================
@@ -127,7 +129,7 @@ a:active {
 
 .bot-message,
 .user-message {
-  max-width: 60%;
+  max-width: 85%;
   padding: 18px 22px;
   margin-bottom: 28px;
   line-height: 1.65;
@@ -139,19 +141,13 @@ a:active {
   align-self: flex-start;
   background: #f4f5ff;
   border-radius: 26px 26px 26px 10px;
-  color: #2a2a2a;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
 }
 
 .user-message {
   align-self: flex-end;
   background: #d9e2f2;
   border-radius: 26px 26px 10px 26px;
-  color: #1a1a1a;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
 }
-
-/* Smooth fade animation */
 
 @keyframes fadeIn {
   from {
@@ -168,8 +164,14 @@ a:active {
    CHOICE BUTTONS
 ====================================== */
 
+.choice-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
 .chatbox button {
-  margin: 6px 12px 0 0;
   padding: 12px 18px;
   border-radius: 20px;
   border: none;
@@ -204,7 +206,8 @@ a:active {
 
 .input-area input:focus {
   outline: none;
-  border-color: #bdbdf0;
+  border-color: #a9acf5;
+  background: #ffffff;
 }
 
 .input-area button {
@@ -213,15 +216,10 @@ a:active {
   background: #e3e5ff;
   border: none;
   cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.input-area button:hover {
-  background: #d3d6ff;
 }
 
 /* ======================================
-   MODAL BASE (Breathing + Sit + Flip)
+   MODALS
 ====================================== */
 
 .breathing-modal {
@@ -232,6 +230,7 @@ a:active {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
   z-index: 1000;
 }
 
@@ -246,7 +245,22 @@ a:active {
   box-shadow: 0 50px 120px rgba(0, 0, 0, 0.3);
 }
 
-/* Modal Buttons */
+
+
+.breath-circle {
+  margin-bottom: 8px;
+}
+
+.breath-phase {
+  margin-bottom: 14px;
+}
+
+.breathing-card button {
+  margin-top: 10px;
+}
+
+
+
 .breathing-card button,
 .flip-container button {
   padding: 14px 22px;
@@ -255,43 +269,16 @@ a:active {
   background: #e3e5ff;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: 0.2s ease;
 }
 
 .breathing-card button:hover,
-.flip-container button:hover {
-  background: #d3d6ff;
-  transform: translateY(-2px);
-}
-
-/* ======================================
-   BREATH CIRCLE
-====================================== */
-
-.breath-circle {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  margin: 35px auto;
-  border: 3px solid #dcdcff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 38px;
-  font-weight: 600;
-  transition: transform 1s ease;
-}
-
-.breath-phase {
+.flip-container button {
+  padding: 10px 16px;     
+  border-radius: 20px;
   font-size: 14px;
-  color: #555;
-  margin-top: 14px;
-  line-height: 1.6;
 }
 
-/* ======================================
-   FLIP CARD
-====================================== */
 
 .flip-card {
   perspective: 1000px;
@@ -305,7 +292,7 @@ a:active {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s ease;
+  transition: transform 0.6s ease;
   transform-style: preserve-3d;
 }
 
@@ -316,21 +303,24 @@ a:active {
 .flip-front,
 .flip-back {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 28px;
+  inset: 0;
+  border-radius: 26px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 28px;
+
+  padding: 12px 20px;      
+  text-align: center;
   backface-visibility: hidden;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.1);
-  font-size: 16px;
-  line-height: 1.7;
+
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 .flip-front {
-  background: #f5f6ff;
+  background: #f4f5ff;
+  color: #444;
 }
 
 .flip-back {
@@ -338,23 +328,14 @@ a:active {
   transform: rotateY(180deg);
 }
 
-/* ======================================
-   MOBILE OPTIMISATION
-====================================== */
 
 @media (max-width: 768px) {
-
   .entry-screen {
     padding-top: 80px;
   }
 
-  .app {
-    padding: 30px 15px;
-  }
-
   .bot-message,
   .user-message {
-    max-width: 80%;
+    max-width: 90%;
   }
-
 }
